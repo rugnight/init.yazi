@@ -1,0 +1,389 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+
+[manager]
+
+keymap = [
+	{ on = "<Esc>", run = "escape",             desc = "ビジュアルモードを終了、選択解除、または検索をキャンセル" },
+	{ on = "<C-[>", run = "escape",             desc = "ビジュアルモードを終了、選択解除、または検索をキャンセル" },
+	{ on = "q",     run = "quit",               desc = "プロセスを終了" },
+	{ on = "Q",     run = "quit --no-cwd-file", desc = "現在の作業ディレクトリを出力せずに終了" },
+	{ on = "<C-c>", run = "close",              desc = "現在のタブを閉じる、最後のタブなら終了" },
+	{ on = "<C-z>", run = "suspend",            desc = "プロセスを一時停止" },
+
+	# Hopping (移動)
+	{ on = "k", run = "arrow -1", desc = "Previous task" },
+	{ on = "j", run = "arrow +1", desc = "Next task" },
+
+	{ on = "<Up>",   run = "arrow -1", desc = "前のファイル" },
+	{ on = "<Down>", run = "arrow +1", desc = "次のファイル" },
+
+	{ on = "<C-u>", run = "arrow -50%",  desc = "カーソルを半ページ上に移動" },
+	{ on = "<C-d>", run = "arrow 50%",   desc = "カーソルを半ページ下に移動" },
+	{ on = "<C-b>", run = "arrow -100%", desc = "カーソルを1ページ上に移動" },
+	{ on = "<C-f>", run = "arrow 100%",  desc = "カーソルを1ページ下に移動" },
+
+	{ on = "<S-PageUp>",   run = "arrow -50%",  desc = "カーソルを半ページ上に移動" },
+	{ on = "<S-PageDown>", run = "arrow 50%",   desc = "カーソルを半ページ下に移動" },
+	{ on = "<PageUp>",     run = "arrow -100%", desc = "カーソルを1ページ上に移動" },
+	{ on = "<PageDown>",   run = "arrow 100%",  desc = "カーソルを1ページ下に移動" },
+
+	{ on = [ "g", "g" ], run = "arrow top", desc = "先頭に移動" },
+	{ on = "G",          run = "arrow bot", desc = "末尾に移動" },
+
+	# Navigation (ナビゲーション)
+	{ on = "h", run = "leave", desc = "親ディレクトリに戻る" },
+	{ on = "l", run = "enter", desc = "子ディレクトリに入る" },
+
+	{ on = "<Left>",  run = "leave", desc = "親ディレクトリに戻る" },
+	{ on = "<Right>", run = "enter", desc = "子ディレクトリに入る" },
+
+	{ on = "H", run = "back",    desc = "前のディレクトリに戻る" },
+	{ on = "L", run = "forward", desc = "次のディレクトリに進む" },
+
+	# Toggle (切り替え)
+	{ on = "<Space>", run = [ "toggle", "arrow next" ], desc = "現在の選択状態を切り替え" },
+	{ on = "<C-a>",   run = "toggle_all --state=on",    desc = "すべてのファイルを選択" },
+	{ on = "<C-r>",   run = "toggle_all",               desc = "すべてのファイルの選択を反転" },
+
+	# Visual mode (ビジュアルモード)
+	{ on = "v", run = "visual_mode",         desc = "ビジュアルモードに入る（選択モード）" },
+	{ on = "V", run = "visual_mode --unset", desc = "ビジュアルモードに入る（解除モード）" },
+
+	# Seeking (プレビューでのシーク)
+	{ on = "K", run = "seek -5", desc = "プレビューで5単位上にシーク" },
+	{ on = "J", run = "seek 5",  desc = "プレビューで5単位下にシーク" },
+
+	# Spotting (スポット)
+	{ on = "<Tab>", run = "spot", desc = "ホバーしているファイルをスポット" },
+
+	# Operation (操作)
+	{ on = "o",         run = "open",                        desc = "選択したファイルを開く" },
+	{ on = "O",         run = "open --interactive",          desc = "選択したファイルをインタラクティブに開く" },
+	{ on = "<Enter>",   run = "open",                        desc = "選択したファイルを開く" },
+	{ on = "<S-Enter>", run = "open --interactive",          desc = "選択したファイルをインタラクティブに開く" },
+	{ on = "y",         run = "yank",                        desc = "選択したファイルをヤンク（コピー）" },
+	{ on = "x",         run = "yank --cut",                  desc = "選択したファイルをヤンク（切り取り）" },
+	{ on = "p",         run = "paste",                       desc = "ヤンクしたファイルを貼り付け" },
+	{ on = "P",         run = "paste --force",               desc = "ヤンクしたファイルを貼り付け（存在する場合は上書き）" },
+	{ on = "-",         run = "link",                        desc = "ヤンクしたファイルの絶対パスのシンボリックリンクを作成" },
+	{ on = "_",         run = "link --relative",             desc = "ヤンクしたファイルの相対パスのシンボリックリンクを作成" },
+	{ on = "<C-->",     run = "hardlink",                    desc = "ヤンクしたファイルのハードリンクを作成" },
+	{ on = "Y",         run = "unyank",                      desc = "ヤンク状態をキャンセル" },
+	{ on = "X",         run = "unyank",                      desc = "ヤンク状態をキャンセル" },
+	{ on = "d",         run = "remove",                      desc = "選択したファイルをゴミ箱に移動" },
+	{ on = "D",         run = "remove --permanently",        desc = "選択したファイルを完全に削除" },
+	{ on = "a",         run = "create",                      desc = "ファイルを作成（/で終わるとディレクトリ）" },
+	{ on = "r",         run = "rename --cursor=before_ext",  desc = "選択したファイルの名前を変更" },
+	{ on = ";",         run = "shell --interactive",         desc = "シェルコマンドを実行" },
+	{ on = ":",         run = "shell --block --interactive", desc = "シェルコマンドを実行（完了まで待機）" },
+	{ on = ".",         run = "hidden toggle",               desc = "隠しファイルの表示切り替え" },
+	{ on = "s",         run = "search --via=fd",             desc = "fdを使ってファイル名で検索" },
+	{ on = "S",         run = "search --via=rg",             desc = "ripgrepを使ってファイル内容で検索" },
+	{ on = "<C-s>",     run = "escape --search",             desc = "進行中の検索をキャンセル" },
+	{ on = "z",         run = "plugin fzf",                  desc = "fzfを使ってファイル/ディレクトリにジャンプ" },
+	{ on = "Z",         run = "plugin zoxide",               desc = "zoxideを使ってディレクトリにジャンプ" },
+
+	# Linemode (ラインモード)
+	{ on = [ "m", "s" ], run = "linemode size",        desc = "ラインモード：サイズ" },
+	{ on = [ "m", "p" ], run = "linemode permissions", desc = "ラインモード：権限" },
+	{ on = [ "m", "b" ], run = "linemode btime",       desc = "ラインモード：作成日時" },
+	{ on = [ "m", "m" ], run = "linemode mtime",       desc = "ラインモード：更新日時" },
+	{ on = [ "m", "o" ], run = "linemode owner",       desc = "ラインモード：所有者" },
+	{ on = [ "m", "n" ], run = "linemode none",        desc = "ラインモード：なし" },
+
+	# Copy (コピー)
+	{ on = [ "c", "c" ], run = "copy path",             desc = "ファイルパスをコピー" },
+	{ on = [ "c", "d" ], run = "copy dirname",          desc = "ディレクトリパスをコピー" },
+	{ on = [ "c", "f" ], run = "copy filename",         desc = "ファイル名をコピー" },
+	{ on = [ "c", "n" ], run = "copy name_without_ext", desc = "拡張子なしのファイル名をコピー" },
+
+	# Filter (フィルター)
+	{ on = "f", run = "filter --smart", desc = "ファイルをフィルター" },
+
+	# Find (検索)
+	{ on = "/", run = "find --smart",            desc = "次のファイルを検索" },
+	{ on = "?", run = "find --previous --smart", desc = "前のファイルを検索" },
+	{ on = "n", run = "find_arrow",              desc = "次の検索結果" },
+	{ on = "N", run = "find_arrow --previous",   desc = "前の検索結果" },
+
+	# Sorting (ソート)
+	{ on = [ ",", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ], desc = "更新日時でソート" },
+	{ on = [ ",", "M" ], run = [ "sort mtime --reverse", "linemode mtime" ],    desc = "更新日時でソート（逆順）" },
+	{ on = [ ",", "b" ], run = [ "sort btime --reverse=no", "linemode btime" ], desc = "作成日時でソート" },
+	{ on = [ ",", "B" ], run = [ "sort btime --reverse", "linemode btime" ],    desc = "作成日時でソート（逆順）" },
+	{ on = [ ",", "e" ], run = "sort extension --reverse=no",                   desc = "拡張子でソート" },
+	{ on = [ ",", "E" ], run = "sort extension --reverse",                      desc = "拡張子でソート（逆順）" },
+	{ on = [ ",", "a" ], run = "sort alphabetical --reverse=no",                desc = "アルファベット順でソート" },
+	{ on = [ ",", "A" ], run = "sort alphabetical --reverse",                   desc = "アルファベット順でソート（逆順）" },
+	{ on = [ ",", "n" ], run = "sort natural --reverse=no",                     desc = "自然順でソート" },
+	{ on = [ ",", "N" ], run = "sort natural --reverse",                        desc = "自然順でソート（逆順）" },
+	{ on = [ ",", "s" ], run = [ "sort size --reverse=no", "linemode size" ],   desc = "サイズでソート" },
+	{ on = [ ",", "S" ], run = [ "sort size --reverse", "linemode size" ],      desc = "サイズでソート（逆順）" },
+	{ on = [ ",", "r" ], run = "sort random --reverse=no",                      desc = "ランダムでソート" },
+
+	# Goto (移動)
+	{ on = [ "g", "h" ],       run = "cd ~",             desc = "ホームディレクトリに移動" },
+	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "~/.configに移動" },
+	{ on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "~/Downloadsに移動" },
+	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "インタラクティブにジャンプ" },
+	{ on = [ "g", "f" ],       run = "follow",           desc = "ホバーしているシンボリックリンクをたどる" },
+
+	# Tabs (タブ)
+	{ on = "t", run = "tab_create --current", desc = "現在のディレクトリで新しいタブを作成" },
+
+	{ on = "1", run = "tab_switch 0", desc = "最初のタブに切り替え" },
+	{ on = "2", run = "tab_switch 1", desc = "2番目のタブに切り替え" },
+	{ on = "3", run = "tab_switch 2", desc = "3番目のタブに切り替え" },
+	{ on = "4", run = "tab_switch 3", desc = "4番目のタブに切り替え" },
+	{ on = "5", run = "tab_switch 4", desc = "5番目のタブに切り替え" },
+	{ on = "6", run = "tab_switch 5", desc = "6番目のタブに切り替え" },
+	{ on = "7", run = "tab_switch 6", desc = "7番目のタブに切り替え" },
+	{ on = "8", run = "tab_switch 7", desc = "8番目のタブに切り替え" },
+	{ on = "9", run = "tab_switch 8", desc = "9番目のタブに切り替え" },
+
+	{ on = "[", run = "tab_switch -1 --relative", desc = "前のタブに切り替え" },
+	{ on = "]", run = "tab_switch 1 --relative",  desc = "次のタブに切り替え" },
+
+	{ on = "{", run = "tab_swap -1", desc = "現在のタブを前のタブと入れ替え" },
+	{ on = "}", run = "tab_swap 1",  desc = "現在のタブを次のタブと入れ替え" },
+
+	# Tasks (タスク)
+	{ on = "w", run = "tasks:show", desc = "タスクマネージャーを表示" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[tasks]
+
+keymap = [
+	{ on = "<Esc>", run = "close", desc = "タスクマネージャーを閉じる" },
+	{ on = "<C-[>", run = "close", desc = "タスクマネージャーを閉じる" },
+	{ on = "<C-c>", run = "close", desc = "タスクマネージャーを閉じる" },
+	{ on = "w",     run = "close", desc = "タスクマネージャーを閉じる" },
+
+	{ on = "k", run = "arrow -1", desc = "前のタスク" },
+	{ on = "j", run = "arrow +1", desc = "次のタスク" },
+
+	{ on = "<Up>",   run = "arrow -1", desc = "前のタスク" },
+	{ on = "<Down>", run = "arrow +1", desc = "次のタスク" },
+
+	{ on = "<Enter>", run = "inspect", desc = "タスクを検査" },
+	{ on = "x",       run = "cancel",  desc = "タスクをキャンセル" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[spot]
+
+keymap = [
+	{ on = "<Esc>", run = "close", desc = "スポットを閉じる" },
+	{ on = "<C-[>", run = "close", desc = "スポットを閉じる" },
+	{ on = "<C-c>", run = "close", desc = "スポットを閉じる" },
+	{ on = "<Tab>", run = "close", desc = "スポットを閉じる" },
+
+	{ on = "k", run = "arrow -1", desc = "前の行" },
+	{ on = "j", run = "arrow +1", desc = "次の行" },
+	{ on = "h", run = "swipe prev", desc = "前のファイルにスワイプ" },
+	{ on = "l", run = "swipe next", desc = "次のファイルにスワイプ" },
+
+	{ on = "<Up>",    run = "arrow -1", desc = "前の行" },
+	{ on = "<Down>",  run = "arrow +1", desc = "次の行" },
+	{ on = "<Left>",  run = "swipe prev", desc = "前のファイルにスワイプ" },
+	{ on = "<Right>", run = "swipe next", desc = "次のファイルにスワイプ" },
+
+	# Copy (コピー)
+	{ on = [ "c", "c" ], run = "copy cell", desc = "選択したセルをコピー" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[pick]
+
+keymap = [
+	{ on = "<Esc>",   run = "close",          desc = "選択をキャンセル" },
+	{ on = "<C-[>",   run = "close",          desc = "選択をキャンセル" },
+	{ on = "<C-c>",   run = "close",          desc = "選択をキャンセル" },
+	{ on = "<Enter>", run = "close --submit", desc = "選択を確定" },
+
+	{ on = "k", run = "arrow -1", desc = "前のオプション" },
+	{ on = "j", run = "arrow +1", desc = "次のオプション" },
+
+	{ on = "<Up>",   run = "arrow -1", desc = "前のオプション" },
+	{ on = "<Down>", run = "arrow +1", desc = "次のオプション" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[input]
+
+keymap = [
+	{ on = "<C-c>",   run = "close",          desc = "入力をキャンセル" },
+	{ on = "<Enter>", run = "close --submit", desc = "入力を確定" },
+	{ on = "<Esc>",   run = "escape",         desc = "ノーマルモードに戻る、または入力をキャンセル" },
+	{ on = "<C-[>",   run = "escape",         desc = "ノーマルモードに戻る、または入力をキャンセル" },
+
+	# Mode (モード)
+	{ on = "i", run = "insert",                          desc = "挿入モードに入る" },
+	{ on = "I", run = [ "move first-char", "insert" ],   desc = "行頭に移動し、挿入モードに入る" },
+	{ on = "a", run = "insert --append",                 desc = "追加モードに入る" },
+	{ on = "A", run = [ "move eol", "insert --append" ], desc = "行末に移動し、追加モードに入る" },
+	{ on = "v", run = "visual",                          desc = "ビジュアルモードに入る" },
+	{ on = "r", run = "replace",                         desc = "1文字置換" },
+
+	# Selection (選択)
+	{ on = "V",     run = [ "move bol", "visual", "move eol" ], desc = "行頭から行末まで選択" },
+	{ on = "<C-A>", run = [ "move eol", "visual", "move bol" ], desc = "行末から行頭まで選択" },
+	{ on = "<C-E>", run = [ "move bol", "visual", "move eol" ], desc = "行頭から行末まで選択" },
+
+	# Character-wise movement (文字単位の移動)
+	{ on = "h",       run = "move -1", desc = "1文字後ろに移動" },
+	{ on = "l",       run = "move 1",  desc = "1文字前に移動" },
+	{ on = "<Left>",  run = "move -1", desc = "1文字後ろに移動" },
+	{ on = "<Right>", run = "move 1",  desc = "1文字前に移動" },
+	{ on = "<C-b>",   run = "move -1", desc = "1文字後ろに移動" },
+	{ on = "<C-f>",   run = "move 1",  desc = "1文字前に移動" },
+
+	# Word-wise movement (単語単位の移動)
+	{ on = "b",     run = "backward",                    desc = "現在または前の単語の先頭に移動" },
+	{ on = "B",     run = "backward --far",              desc = "現在または前のWORDの先頭に移動" },
+	{ on = "w",     run = "forward",                     desc = "次の単語の先頭に移動" },
+	{ on = "W",     run = "forward --far",               desc = "次のWORDの先頭に移動" },
+	{ on = "e",     run = "forward --end-of-word",       desc = "現在または次の単語の末尾に移動" },
+	{ on = "E",     run = "forward --far --end-of-word", desc = "現在または次のWORDの末尾に移動" },
+	{ on = "<A-b>", run = "backward",                    desc = "現在または前の単語の先頭に移動" },
+	{ on = "<A-f>", run = "forward --end-of-word",       desc = "現在または次の単語の末尾に移動" },
+
+	# Line-wise movement (行単位の移動)
+	{ on = "0",      run = "move bol",        desc = "行頭に移動" },
+	{ on = "$",      run = "move eol",        desc = "行末に移動" },
+	{ on = "_",      run = "move first-char", desc = "最初の非空白文字に移動" },
+	{ on = "^",      run = "move first-char", desc = "最初の非空白文字に移動" },
+	{ on = "<C-a>",  run = "move bol",        desc = "行頭に移動" },
+	{ on = "<C-e>",  run = "move eol",        desc = "行末に移動" },
+	{ on = "<Home>", run = "move bol",        desc = "行頭に移動" },
+	{ on = "<End>",  run = "move eol",        desc = "行末に移動" },
+
+	# Delete (削除)
+	{ on = "<Backspace>", run = "backspace",         desc = "カーソル前の文字を削除" },
+	{ on = "<Delete>",    run = "backspace --under", desc = "カーソル下の文字を削除" },
+	{ on = "<C-h>",       run = "backspace",         desc = "カーソル前の文字を削除" },
+	{ on = "<C-d>",       run = "backspace --under", desc = "カーソル下の文字を削除" },
+
+	# Kill (キル)
+	{ on = "<C-u>", run = "kill bol",      desc = "行頭まで後ろ向きに削除" },
+	{ on = "<C-k>", run = "kill eol",      desc = "行末まで前向きに削除" },
+	{ on = "<C-w>", run = "kill backward", desc = "現在の単語の先頭まで後ろ向きに削除" },
+	{ on = "<A-d>", run = "kill forward",  desc = "現在の単語の末尾まで前向きに削除" },
+
+	# Cut/Yank/Paste (切り取り/ヤンク/貼り付け)
+	{ on = "d", run = "delete --cut",                              desc = "選択した文字を切り取り" },
+	{ on = "D", run = [ "delete --cut", "move eol" ],              desc = "行末まで切り取り" },
+	{ on = "c", run = "delete --cut --insert",                     desc = "選択した文字を切り取り、挿入モードに入る" },
+	{ on = "C", run = [ "delete --cut --insert", "move eol" ],     desc = "行末まで切り取り、挿入モードに入る" },
+	{ on = "x", run = [ "delete --cut", "move 1 --in-operating" ], desc = "現在の文字を切り取り" },
+	{ on = "y", run = "yank",                                      desc = "選択した文字をコピー" },
+	{ on = "p", run = "paste",                                     desc = "コピーした文字をカーソル後に貼り付け" },
+	{ on = "P", run = "paste --before",                            desc = "コピーした文字をカーソル前に貼り付け" },
+
+	# Undo/Redo (元に戻す/やり直し)
+	{ on = "u",     run = "undo", desc = "最後の操作を元に戻す" },
+	{ on = "<C-r>", run = "redo", desc = "最後の操作をやり直す" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[confirm]
+
+keymap = [
+	{ on = "<Esc>",   run = "close",          desc = "確認をキャンセル" },
+	{ on = "<C-[>",   run = "close",          desc = "確認をキャンセル" },
+	{ on = "<C-c>",   run = "close",          desc = "確認をキャンセル" },
+	{ on = "<Enter>", run = "close --submit", desc = "確認を提出" },
+
+	{ on = "n", run = "close",          desc = "確認をキャンセル" },
+	{ on = "y", run = "close --submit", desc = "確認を提出" },
+
+	{ on = "k", run = "arrow -1", desc = "前の行" },
+	{ on = "j", run = "arrow +1", desc = "次の行" },
+
+	{ on = "<Up>",   run = "arrow -1", desc = "前の行" },
+	{ on = "<Down>", run = "arrow +1", desc = "次の行" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[cmp]
+
+keymap = [
+	{ on = "<C-c>",   run = "close",                                      desc = "補完をキャンセル" },
+	{ on = "<Tab>",   run = "close --submit",                             desc = "補完を確定" },
+	{ on = "<Enter>", run = [ "close --submit", "input:close --submit" ], desc = "補完を確定し入力を提出" },
+
+	{ on = "<A-k>", run = "arrow -1", desc = "前の項目" },
+	{ on = "<A-j>", run = "arrow +1", desc = "次の項目" },
+
+	{ on = "<Up>",   run = "arrow -1", desc = "前の項目" },
+	{ on = "<Down>", run = "arrow +1", desc = "次の項目" },
+
+	{ on = "<C-p>", run = "arrow -1", desc = "前の項目" },
+	{ on = "<C-n>", run = "arrow +1", desc = "次の項目" },
+
+	# Help (ヘルプ)
+	{ on = "~",    run = "help", desc = "ヘルプを開く" },
+	{ on = "<F1>", run = "help", desc = "ヘルプを開く" },
+]
+
+[help]
+
+keymap = [
+	{ on = "<Esc>", run = "escape", desc = "フィルターをクリア、またはヘルプを非表示" },
+	{ on = "<C-[>", run = "escape", desc = "フィルターをクリア、またはヘルプを非表示" },
+	{ on = "<C-c>", run = "close",  desc = "ヘルプを非表示" },
+
+	# Navigation (ナビゲーション)
+	{ on = "k", run = "arrow -1", desc = "前の行" },
+	{ on = "j", run = "arrow +1", desc = "次の行" },
+
+	{ on = "<Up>",   run = "arrow -1", desc = "前の行" },
+	{ on = "<Down>", run = "arrow +1", desc = "次の行" },
+
+	# Filtering (フィルタリング)
+	{ on = "f", run = "filter", desc = "ヘルプ項目をフィルター" },
+]
+
+# --------------------------------------------------
+# bookmarks.yazi
+# --------------------------------------------------
+[[manager.prepend_keymap]]
+on = [ "m" ]
+run = "plugin bookmarks save"
+desc = "Save current position as a bookmark"
+
+[[manager.prepend_keymap]]
+on = [ "'" ]
+run = "plugin bookmarks jump"
+desc = "Jump to a bookmark"
+
+[[manager.prepend_keymap]]
+on = [ "b", "d" ]
+run = "plugin bookmarks delete"
+desc = "Delete a bookmark"
+
+[[manager.prepend_keymap]]
+on = [ "b", "D" ]
+run = "plugin bookmarks delete_all"
+desc = "Delete all bookmarks"

@@ -1,0 +1,7 @@
+[[plugin.deps]]
+use = "dedukun/bookmarks"
+rev = "95b2c58"
+hash = "6bc05f07c29bb5142f0bfe3c57bf02dd"
+
+[flavor]
+deps = []
