@@ -365,25 +365,27 @@ keymap = [
 	{ on = "f", run = "filter", desc = "ヘルプ項目をフィルター" },
 ]
 
+
 # --------------------------------------------------
-# bookmarks.yazi
+# bookmark
 # --------------------------------------------------
 [[manager.prepend_keymap]]
-on = [ "m" ]
-run = "plugin bookmarks save"
-desc = "Save current position as a bookmark"
-
+on = [ "<C-b>" ]
+run = "plugin yamb save"
+desc = "ブックマークを追加"
 [[manager.prepend_keymap]]
-on = [ "'" ]
-run = "plugin bookmarks jump"
-desc = "Jump to a bookmark"
-
+on = [ "<S-b>" ]
+run = "plugin yamb jump_by_fzf"
+desc = "fzfでブックマークにジャンプ"
 [[manager.prepend_keymap]]
 on = [ "b", "d" ]
-run = "plugin bookmarks delete"
-desc = "Delete a bookmark"
-
+run = "plugin yamb delete_by_fzf"
+desc = "fzfでブックマークを削除"
 [[manager.prepend_keymap]]
-on = [ "b", "D" ]
-run = "plugin bookmarks delete_all"
-desc = "Delete all bookmarks"
+on = [ "b", "A" ]
+run = "plugin yamb delete_all"
+desc = "すべてのブックマークを削除"
+[[manager.prepend_keymap]]
+on = [ "b", "r" ]
+run = "plugin yamb rename_by_fzf"
+desc = "fzfでブックマークの名前を変更"
