@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[manager]
+[mgr]
 
 keymap = [
 	{ on = "<Esc>", run = "escape",             desc = "ビジュアルモードを終了、選択解除、または検索をキャンセル" },
@@ -369,23 +369,23 @@ keymap = [
 # --------------------------------------------------
 # bookmark
 # --------------------------------------------------
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = [ "<C-b>" ]
 run = "plugin yamb save"
 desc = "ブックマークを追加"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = [ "<S-b>" ]
 run = "plugin yamb jump_by_fzf"
 desc = "fzfでブックマークにジャンプ"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = [ "b", "d" ]
 run = "plugin yamb delete_by_fzf"
 desc = "fzfでブックマークを削除"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = [ "b", "A" ]
 run = "plugin yamb delete_all"
 desc = "すべてのブックマークを削除"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = [ "b", "r" ]
 run = "plugin yamb rename_by_fzf"
 desc = "fzfでブックマークの名前を変更"
